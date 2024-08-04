@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: w2y_frontend_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:6.2
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b '0.0.0.0' -p 8080"
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: w2y_frontend_development
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      AUTH_SERVICE_URL: http://localhost:3000
+      NOTIFICATION_SERVICE_URL: http://localhost:5000
+      WEBSCRAPPING_SERVICE_URL: http://localhost:4000
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
