@@ -1,0 +1,12 @@
+
+<title>W2Y</title>
+<%= stylesheet_link_tag 'session/new' %>
+
+<%= 
+  render 'shared/form', 
+  form_url: "/create_user", 
+  form_method: :post, 
+  submit_text: 'Register', 
+  link_text: 'Go back to login', 
+  link_url: new_session_path 
+%>
