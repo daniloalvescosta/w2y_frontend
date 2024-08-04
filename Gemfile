@@ -20,6 +20,8 @@ gem 'dotenv', '~> 2.1', '>= 2.1.1'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rspec-rails'
+  gem 'rubocop-rspec'
 end
 
 group :development do
