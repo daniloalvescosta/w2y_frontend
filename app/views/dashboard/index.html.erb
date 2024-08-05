@@ -1,6 +1,12 @@
+<!-- app/views/tasks/index.html.erb -->
 <%= render 'shared/navbar' %>
-
 <div class="container d-flex flex-column align-items-center" style="min-height: 100vh;">
+  <div class="w-100 d-flex justify-content-end" style="max-width: 900px; margin-top: 20px;">
+    <%= link_to new_path, class: 'btn btn-primary mb-3' do %>
+      <i class="fa fa-plus"></i> New Task
+    <% end %>
+  </div>
+
   <div class="w-100" style="max-width: 900px; margin-top: 20px;">
     <%= form_with url: "/", method: :get, local: true do %>
       <div class="d-flex flex-wrap mb-3">
@@ -32,22 +38,25 @@
   </div>
 
   <div class="w-100" style="max-width: 900px; margin-top: 20px;">
-  <% if @tasks.nil? %>
-    <h1>There's no tasks...</h2>
-  <% else %>
-    <p>Total tasks: <%= @tasks.count %></p>
-    <% @tasks.each do |task| %>
-      <div class="card mb-2 w-100">
-        <div class="card-body <%= status_class(task['status']) %>">
-          <h5 class="card-title">Email: <%= task['user_email'] %></h5>
-          <p class="card-text">Status: <%= task['status'].humanize %></p>
-          <p class="card-text">Created At: <%= task['created_at'].to_date.strftime("%d-%m-%Y") %></p>
-          <% if task['status'] == 'complete' %>
-            <%= link_to 'See results', vehicles_path(uuid: task['uuid']), class: 'btn text-white' %>
-          <% end %>
+    <% if @tasks.nil? || @tasks.empty? %>
+      <h1>There's no tasks...</h1>
+    <% else %>
+      <p>Total tasks: <%= @tasks.count %></p>
+      <% @tasks.each do |task| %>
+        <div class="card mb-2 w-100">
+          <div class="card-body <%= status_class(task['status']) %>">
+            <h5 class="card-title">Email: <%= task['user_email'] %></h5>
+            <p class="card-text">Status: <%= task['status'].humanize %></p>
+            <p class="card-text">Created At: <%= task['created_at'].to_date.strftime("%d-%m-%Y") %></p>
+            <% if task['status'] == 'complete' %>
+              <div class="d-flex justify-content-between">
+                <%= link_to 'See results', vehicles_path(uuid: task['uuid']), class: 'btn text-white' %>
+                <%= button_to "Delete", dashboard_path(id: task['uuid']), method: :delete, class: 'btn btn-danger'%>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
-  <% end %>
   </div>
 </div>
