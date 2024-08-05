@@ -1,7 +1,7 @@
 class AuthService < ApplicationService
 
   def self.login(email, password)
-    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'https://77f4-179-124-14-31.ngrok-free.app')) do |faraday|
+    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'https://flat-squids-march.loca.lt')) do |faraday|
       faraday.request :json
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
@@ -19,7 +19,7 @@ class AuthService < ApplicationService
   end
 
   def self.register(email, password)
-    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'https://77f4-179-124-14-31.ngrok-free.app')) do |faraday|
+    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'https://flat-squids-march.loca.lt')) do |faraday|
       faraday.request :json
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
