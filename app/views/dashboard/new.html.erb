@@ -1,0 +1,19 @@
+
+<%= render 'shared/navbar' %>
+
+<div class="container mt-5">
+  <h1>New Task</h1>
+  <%= form_with url: create_task_path, method: :post, local: true do %>
+    <div class="form-check">
+      <%= radio_button_tag :vehicle_type, 'new', false, class: 'form-check-input', id: 'vehicle_type_new' %>
+      <%= label_tag 'vehicle_type_new', 'New vehicles', class: 'form-check-label' %>
+    </div>
+    <div class="form-check">
+      <%= radio_button_tag :vehicle_type, 'used', false, class: 'form-check-input', id: 'vehicle_type_used' %>
+      <%= label_tag 'vehicle_type_used', 'Used vehicles', class: 'form-check-label' %>
+    </div>
+    <div class="form-group mt-2">
+      <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
