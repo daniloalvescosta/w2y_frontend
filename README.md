@@ -1,3 +1,6 @@
+# WY2 FrontEnd
+![W2Y logo](https://github.com/daniloalvescosta/w2y_auth_service/blob/main/app/assets/images/w2y.png)
+
 ### Sobre o W2Y
 O W2Y ou **"WebScrapping2You"** é um projeto focado em realizar webscrapping da webmotors, este projeto é dividido em quatro partes, sendo o repositório atual uma delas.
 
