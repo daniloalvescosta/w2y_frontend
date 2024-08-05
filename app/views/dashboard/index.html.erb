@@ -1,1 +1,53 @@
-ola mundo
+<%= render 'shared/navbar' %>
+
+<div class="container d-flex flex-column align-items-center" style="min-height: 100vh;">
+  <div class="w-100" style="max-width: 900px; margin-top: 20px;">
+    <%= form_with url: "/", method: :get, local: true do %>
+      <div class="d-flex flex-wrap mb-3">
+        <div class="form-check form-check-inline">
+          <%= check_box_tag 'status[]', 'pending', params[:status]&.include?('pending'), class: 'form-check-input', id: 'status_pending' %>
+          <%= label_tag 'status_pending', 'Show only pending status', class: 'form-check-label' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag 'status[]', 'complete', params[:status]&.include?('complete'), class: 'form-check-input', id: 'status_complete' %>
+          <%= label_tag 'status_complete', 'Show only complete status', class: 'form-check-label' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag 'status[]', 'in_progress', params[:status]&.include?('in_progress'), class: 'form-check-input', id: 'status_in_progress' %>
+          <%= label_tag 'status_in_progress', 'Show only in progress', class: 'form-check-label' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag 'status[]', 'failure', params[:status]&.include?('failure'), class: 'form-check-input', id: 'status_failure' %>
+          <%= label_tag 'status_failure', 'Show only failures', class: 'form-check-label' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag 'status[]', 'all', params[:status]&.include?('all'), class: 'form-check-input', id: 'status_all' %>
+          <%= label_tag 'status_all', 'Show all', class: 'form-check-label' %>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <%= submit_tag 'Filter', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-100" style="max-width: 900px; margin-top: 20px;">
+  <% if @tasks.nil? %>
+    <h1>There's no tasks...</h2>
+  <% else %>
+    <p>Total tasks: <%= @tasks.count %></p>
+    <% @tasks.each do |task| %>
+      <div class="card mb-2 w-100">
+        <div class="card-body <%= status_class(task['status']) %>">
+          <h5 class="card-title">Email: <%= task['user_email'] %></h5>
+          <p class="card-text">Status: <%= task['status'].humanize %></p>
+          <p class="card-text">Created At: <%= task['created_at'].to_date.strftime("%d-%m-%Y") %></p>
+          <% if task['status'] == 'complete' %>
+            <%= link_to 'See results', vehicles_path(uuid: task['uuid']), class: 'btn text-white' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  </div>
+</div>
