@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/create_user', to: 'session#create'
 
   get '/', to: 'dashboard#index'
+  get '/vehicles', to: 'dashboard#show'
 end
