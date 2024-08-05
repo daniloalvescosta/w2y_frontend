@@ -1,0 +1,82 @@
+<!-- app/views/vehicles/show.html.erb -->
+<%= render 'shared/navbar' %>
+
+<div class="container mt-5">
+  <h1>Vehicle Details</h1>
+  
+  <!-- Formulário de Filtro -->
+  <div class="mb-4">
+    <form id="filter-form">
+      <div class="row mb-2">
+        <div class="col-md-4">
+          <label for="model">Model</label>
+          <input type="text" id="model" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="brand">Brand</label>
+          <input type="text" id="brand" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="price">Price</label>
+          <input type="number" id="price" class="form-control" step="0.01">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" onclick="filterTable()" class="btn btn-primary">Filter</button>
+          <%= link_to 'Go Back', '/', class: 'btn btn-warning' %>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <table id="vehicles-table" class="table table-bordered table-striped mt-4">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Brand</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @task.each do |vehicle| %>
+        <tr>
+          <td class="model"><%= vehicle['model'] %></td>
+          <td class="brand"><%= vehicle['brand'] %></td>
+          <td class="price"><%= number_to_currency(vehicle['price']) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function filterTable() {
+    var modelFilter = document.getElementById('model').value.toLowerCase();
+    var brandFilter = document.getElementById('brand').value.toLowerCase();
+    var priceFilter = parseFloat(document.getElementById('price').value);
+
+    var table = document.getElementById('vehicles-table');
+    var tr = table.getElementsByTagName('tr');
+
+    for (var i = 1; i < tr.length; i++) {
+      var tdModel = tr[i].getElementsByClassName('model')[0];
+      var tdBrand = tr[i].getElementsByClassName('brand')[0];
+      var tdPrice = tr[i].getElementsByClassName('price')[0];
+
+      if (tdModel && tdBrand && tdPrice) {
+        var model = tdModel.textContent || tdModel.innerText;
+        var brand = tdBrand.textContent || tdBrand.innerText;
+        var price = parseFloat(tdPrice.textContent.replace(/[^0-9.-]+/g, ""));
+
+        if (model.toLowerCase().indexOf(modelFilter) > -1 &&
+            brand.toLowerCase().indexOf(brandFilter) > -1 &&
+            (isNaN(priceFilter) || price <= priceFilter)) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
