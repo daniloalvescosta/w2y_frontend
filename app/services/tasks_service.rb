@@ -29,6 +29,35 @@ class TasksService
     handle_response(response)
   end
 
+  def self.new_task(user_email, vehicle_type, auth_token)
+    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'http://localhost:4000')) do |faraday|
+      faraday.request :url_encoded
+      faraday.response :logger
+      faraday.adapter Faraday.default_adapter
+    end
+
+    response = connection.post('/vehicles/scrape', { user_email: user_email, vehicle_type: vehicle_type }) do |req|
+      req.headers['Authorization'] = "Bearer #{auth_token}"
+    end
+
+    handle_response(response)
+  end
+
+  def self.destroy_task(auth_token, uuid)
+    connection = Faraday.new(url: 'http://localhost:4000') do |faraday|
+      faraday.request :url_encoded
+      faraday.response :logger
+      faraday.adapter Faraday.default_adapter
+    end
+
+    response = connection.delete('/destroy_task') do |req|
+      req.headers['Authorization'] = "Bearer #{auth_token}"
+      req.params['uuid'] = uuid
+    end
+
+    response.body
+  end
+
   private
 
   def self.handle_response(response)

@@ -13,5 +13,28 @@ class DashboardController < ApplicationController
     @task = TasksService.get_task(session[:jwt], params[:uuid])
   end
 
-  private
+  def new; end
+
+  def create_task
+    user_email = session[:email]
+    auth_token = session[:jwt]
+    vehicle_type = params[:vehicle_type] == "used" ? "carros-usados" : "carros-novos"
+
+    if user_email.present? && auth_token.present? && vehicle_type.present?
+      response = TasksService.new_task(user_email, vehicle_type, auth_token)
+      if response
+        redirect_to '/', notice: 'Task created successfully'
+      else
+        redirect_to new_path, alert: 'Failed to create task'
+      end
+    else
+      redirect_to new_path, alert: 'All fields are required'
+    end
+  end
+
+  def destroy
+    TasksService.destroy_task(session[:jwt], params[:id])
+
+     redirect_to '/', notice: 'Task deleted successfully'
+  end
 end

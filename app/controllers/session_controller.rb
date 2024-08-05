@@ -32,4 +32,9 @@ class SessionController < ApplicationController
       redirect_to new_session_path
     end
   end
+
+  def logout
+    reset_session
+    redirect_to new_session_path, notice: 'Logged out successfully'
+  end
 end
