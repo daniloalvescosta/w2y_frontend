@@ -3,6 +3,7 @@ class DashboardController < ApplicationController
 
   def index
     @tasks = TasksService.get_tasks(session[:jwt])
+    @notifications = NotificationService.fetch_notifications
 
     if params[:status].present? && !params[:status].include?('all')
       @tasks = @tasks.select { |task| params[:status].include?(task['status']) }
