@@ -1,7 +1,7 @@
 # app/services/task_service.rb
 class TasksService
   def self.get_tasks(auth_token)
-    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'http://localhost:4000')) do |faraday|
+    connection = Faraday.new(url: ENV.fetch('SCRAPPING_URL', 'https://smart-fans-wonder.loca.lt')) do |faraday|
       faraday.request :json
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
@@ -16,7 +16,7 @@ class TasksService
   end
 
   def self.get_task(auth_token, uuid)
-    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'http://localhost:4000')) do |faraday|
+    connection = Faraday.new(url: ENV.fetch('SCRAPPING_URL', 'https://smart-fans-wonder.loca.lt')) do |faraday|
       faraday.request :json
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
@@ -30,7 +30,7 @@ class TasksService
   end
 
   def self.new_task(user_email, vehicle_type, auth_token)
-    connection = Faraday.new(url: ENV.fetch('AUTH_URL', 'http://localhost:4000')) do |faraday|
+    connection = Faraday.new(url: ENV.fetch('SCRAPPING_URL', 'https://smart-fans-wonder.loca.lt')) do |faraday|
       faraday.request :url_encoded
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
@@ -44,7 +44,7 @@ class TasksService
   end
 
   def self.destroy_task(auth_token, uuid)
-    connection = Faraday.new(url: 'http://localhost:4000') do |faraday|
+    connection = Faraday.new(url: 'https://smart-fans-wonder.loca.lt') do |faraday|
       faraday.request :url_encoded
       faraday.response :logger
       faraday.adapter Faraday.default_adapter
